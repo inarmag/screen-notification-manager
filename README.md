@@ -1,21 +1,43 @@
-# Read Me First
-The following was discovered as part of building this project:
+## Requirements:
 
-* The original package name 'com.sqreen.notification-manager' is invalid and this project uses 'com.sqreen.notificationmanager' instead.
+We want to create a Python/Flask application that listen for webhook notifications from Sqreen.
+On receiving a notification the application should:
 
-# Getting Started
+- Check that the signature is correct
+- Redispatch the notification to multiple targets (e.g. log, email, HTTP, SMS, Slack).
 
-### Reference Documentation
-For further reference, please consider the following sections:
+####  Requested:
+- Have a generic interface for target backends
+- Two target backends
+- Have relevant tests
 
-* [Official Apache Maven documentation](https://maven.apache.org/guides/index.html)
-* [Spring Boot Maven Plugin Reference Guide](https://docs.spring.io/spring-boot/docs/2.2.6.RELEASE/maven-plugin/)
-* [Spring Web](https://docs.spring.io/spring-boot/docs/2.2.6.RELEASE/reference/htmlsingle/#boot-features-developing-web-applications)
 
-### Guides
-The following guides illustrate how to use some features concretely:
+## Start project localy
 
-* [Building a RESTful Web Service](https://spring.io/guides/gs/rest-service/)
-* [Serving Web Content with Spring MVC](https://spring.io/guides/gs/serving-web-content/)
-* [Building REST services with Spring](https://spring.io/guides/tutorials/bookmarks/)
+1- Update application.properties file with the correct config value:
+
+    sqreen.webhook.secret.key=<to be filled>
+    
+    #Email config
+    sqreen.notification.mail.receiver=<palceholder@mail.com>
+    
+    #Slack config
+    slack.incoming.webhook.link=<to be filled>
+    slack.channel=<to be filled>
+
+2- Run spring boot Application:
+
+    $ mvn package
+    
+    $ java -javaagent:notification-manager/lib/sqreen.jar -Dsqreen.token=<Sqreen TOKEN> -Dsqreen.app_name=notification-manager -jar target/notification-manager-0.0.1-SNAPSHOT.jar
+
+3- Run ngrok:
+    
+    $ ./ngrok http 8080
+
+4- Configure webhook url in Sqreen settings
+
+5- Start testing!
+
+
 
